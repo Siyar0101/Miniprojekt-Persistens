@@ -8,51 +8,59 @@ import java.util.List;
 
 public class OrderLineDB {
 
-    public void insertOrderLine(OrderLine ol, int orderNo) {
-        String sql = "INSERT INTO OrderLine (orderNo, productNo, quantity) VALUES (?, ?, ?)";
+	private static OrderLineDB instance;
 
-        try {
-            DBConnection db = new DBConnection();
-            Connection con = db.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql);
+	public void insertOrderLine(OrderLine ol, int orderNo) {
+		String sql = "INSERT INTO OrderLine (orderNo, productNo, quantity) VALUES (?, ?, ?)";
 
-            ps.setInt(1, orderNo);
-            ps.setInt(2, ol.getProduct().getProductNo());
-            ps.setInt(3, ol.getQuantity());
+		try {
+			DBConnection db = new DBConnection();
+			Connection con = db.getConnection();
+			PreparedStatement ps = con.prepareStatement(sql);
 
-            ps.executeUpdate();
-            con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+			ps.setInt(1, orderNo);
+			ps.setInt(2, ol.getProduct().getProductNo());
+			ps.setInt(3, ol.getQuantity());
 
-    public List<OrderLine> getOrderLines(int orderNo) {
-        List<OrderLine> list = new ArrayList<>();
-        String sql = "SELECT * FROM OrderLine WHERE orderNo = ?";
+			ps.executeUpdate();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-        try {
-            DBConnection db = new DBConnection();
-            Connection con = db.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql);
+	public List<OrderLine> getOrderLines(int orderNo) {
+		List<OrderLine> list = new ArrayList<>();
+		String sql = "SELECT * FROM OrderLine WHERE orderNo = ?";
 
-            ps.setInt(1, orderNo);
-            ResultSet rs = ps.executeQuery();
+		try {
+			DBConnection db = new DBConnection();
+			Connection con = db.getConnection();
+			PreparedStatement ps = con.prepareStatement(sql);
 
-            while (rs.next()) {
-                list.add(buildOrderLine(rs));
-            }
+			ps.setInt(1, orderNo);
+			ResultSet rs = ps.executeQuery();
 
-            con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
+			while (rs.next()) {
+				list.add(buildOrderLine(rs));
+			}
 
-    private OrderLine buildOrderLine(ResultSet rs) throws SQLException {
-        Product p = new ProductDB().findProduct(rs.getInt("productNo"));
-        return new OrderLine(p, rs.getInt("quantity"));
-    }
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	private OrderLine buildOrderLine(ResultSet rs) throws SQLException {
+		Product p = new ProductDB().findProduct(rs.getInt("productNo"));
+		return new OrderLine(p, rs.getInt("quantity"));
+	}
+
+	public static OrderLineDB getInstance() {
+		if (instance == null) {
+			instance = new OrderLineDB();
+		}
+		return instance;
+	}
 }
-

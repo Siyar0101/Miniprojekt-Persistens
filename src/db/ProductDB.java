@@ -7,56 +7,61 @@ import java.util.List;
 
 public class ProductDB {
 
-    public Product findProduct(int productNo) {
-        Product p = null;
-        String sql = "SELECT * FROM Product WHERE productNo = ?";
+	private static ProductDB instance;
 
-        try {
-            DBConnection db = new DBConnection();
-            Connection con = db.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql);
+	public Product findProduct(int productNo) {
+		Product p = null;
+		String sql = "SELECT * FROM Product WHERE productNo = ?";
 
-            ps.setInt(1, productNo);
-            ResultSet rs = ps.executeQuery();
+		try {
+			DBConnection db = new DBConnection();
+			Connection con = db.getConnection();
+			PreparedStatement ps = con.prepareStatement(sql);
 
-            if (rs.next()) {
-                p = buildProduct(rs);
-            }
+			ps.setInt(1, productNo);
+			ResultSet rs = ps.executeQuery();
 
-            con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return p;
-    }
+			if (rs.next()) {
+				p = buildProduct(rs);
+			}
 
-    public List<Product> getAllProducts() {
-        List<Product> list = new ArrayList<>();
-        String sql = "SELECT * FROM Product";
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return p;
+	}
 
-        try {
-            DBConnection db = new DBConnection();
-            Connection con = db.getConnection();
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
+	public List<Product> getAllProducts() {
+		List<Product> list = new ArrayList<>();
+		String sql = "SELECT * FROM Product";
 
-            while (rs.next()) {
-                list.add(buildProduct(rs));
-            }
+		try {
+			DBConnection db = new DBConnection();
+			Connection con = db.getConnection();
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
 
-            con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
+			while (rs.next()) {
+				list.add(buildProduct(rs));
+			}
 
-    private Product buildProduct(ResultSet rs) throws SQLException {
-        return new Product(
-                rs.getInt("productNo"),
-                rs.getString("name"),
-                rs.getInt("minStock"),
-                rs.getInt("reservedStock")
-        );
-    }
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	private Product buildProduct(ResultSet rs) throws SQLException {
+		return new Product(rs.getInt("productNo"), rs.getString("name"), rs.getInt("minStock"),
+				rs.getInt("reservedStock"));
+	}
+
+	public static ProductDB getInstance() {
+		if (instance == null) {
+			instance = new ProductDB();
+		}
+		return instance;
+	}
 }

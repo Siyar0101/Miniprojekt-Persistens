@@ -1,59 +1,70 @@
 package db;
 
 import model.Order;
+
 import java.sql.*;
 
 public class OrderDB {
 
-    public Order findOrder(int orderNo) {
-        Order o = null;
-        String sql = "SELECT * FROM SaleOrder WHERE orderNo = ?";
+	private static OrderDB instance;
 
-        try {
-            DBConnection db = new DBConnection();
-            Connection con = db.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql);
+	public Order findOrder(int orderNo) {
+		Order o = null;
+		String sql = "SELECT * FROM SaleOrder WHERE orderNo = ?";
 
-            ps.setInt(1, orderNo);
-            ResultSet rs = ps.executeQuery();
+		try {
+			DBConnection db = new DBConnection();
+			Connection con = db.getConnection();
+			PreparedStatement ps = con.prepareStatement(sql);
 
-            if (rs.next()) {
-                o = buildOrder(rs);
-            }
+			ps.setInt(1, orderNo);
+			ResultSet rs = ps.executeQuery();
 
-            con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return o;
-    }
+			if (rs.next()) {
+				o = buildOrder(rs);
+			}
 
-    public void insertOrder(Order o) {
-        String sql = "INSERT INTO SaleOrder (orderNo, customerPhoneNo, date, amount, discountGiven) VALUES (?, ?, ?, ?, ?)";
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return o;
+	}
 
-        try {
-            DBConnection db = new DBConnection();
-            Connection con = db.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql);
+	public void insertOrder(Order o) {
+		String sql = "INSERT INTO SaleOrder (orderNo, customerPhoneNo, date, amount, discountGiven) VALUES (?, ?, ?, ?, ?)";
 
-            ps.setInt(1, o.getOrderNo());
-            ps.setString(2, o.getCustomer().getPhoneNo());
-            ps.setTimestamp(3, Timestamp.valueOf(o.getDate()));
-            ps.setDouble(4, o.getAmount());
-            ps.setDouble(5, o.getDiscountGiven());
+		try {
+			DBConnection db = new DBConnection();
+			Connection con = db.getConnection();
+			PreparedStatement ps = con.prepareStatement(sql);
 
-            ps.executeUpdate();
-            con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+			ps.setInt(1, o.getOrderNo());
+			ps.setString(2, o.getCustomer().getPhoneNo());
+			ps.setTimestamp(3, Timestamp.valueOf(o.getDate()));
+			ps.setDouble(4, o.getAmount());
+			ps.setDouble(5, o.getDiscountGiven());
 
-    private Order buildOrder(ResultSet rs) throws SQLException {
-        Order o = new Order();
-        o.setOrderNo(rs.getInt("orderNo"));
-        o.setDate(rs.getTimestamp("date").toLocalDateTime());
-        o.setDiscountGiven(rs.getDouble("discountGiven"));
-        return o;
-    }
+			ps.executeUpdate();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private Order buildOrder(ResultSet rs) throws SQLException {
+		Order o = new Order();
+		o.setOrderNo(rs.getInt("orderNo"));
+		o.setDate(rs.getTimestamp("date").toLocalDateTime());
+		o.setDiscountGiven(rs.getDouble("discountGiven"));
+		return o;
+	}
+
+	public static OrderDB getInstance() {
+		if (instance == null) {
+			instance = new OrderDB();
+		}
+		return instance;
+	}
+
 }
