@@ -2,7 +2,7 @@ package db;
 
 import java.sql.*;
 
-public class connect {
+public class DBConnection {
 
     public static void main(String[] args) {
         try {
