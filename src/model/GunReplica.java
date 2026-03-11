@@ -10,6 +10,12 @@ public class GunReplica extends Product {
         this.calibre = calibre;
     }
 
-    public String getMaterial() { return material; }
-    public String getCalibre() { return calibre; }
+	public String getMaterial() {
+		return material;
+	}
+
+	public String getCalibre() {
+		return calibre;
+	}
+
 }
