@@ -6,7 +6,9 @@ import java.util.List;
 
 public class Order {
     private Customer c;
-    private List<OrderLine> orderLines = new ArrayList<>();
+   
+
+	private List<OrderLine> orderLines = new ArrayList<>();
     private int orderNo;
     private LocalDateTime date;
     private double amount;
@@ -32,4 +34,52 @@ public class Order {
         amount = total - discountGiven;
         return amount;
     }
+    
+    public Customer getC() {
+		return c;
+	}
+
+	public void setC(Customer c) {
+		this.c = c;
+	}
+
+	public List<OrderLine> getOrderLines() {
+		return orderLines;
+	}
+
+	public void setOrderLines(List<OrderLine> orderLines) {
+		this.orderLines = orderLines;
+	}
+
+	public int getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(int orderNo) {
+		this.orderNo = orderNo;
+	}
+
+	public LocalDateTime getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDateTime date) {
+		this.date = date;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public double getDiscountGiven() {
+		return discountGiven;
+	}
+
+	public void setDiscountGiven(double discountGiven) {
+		this.discountGiven = discountGiven;
+	}
 }
