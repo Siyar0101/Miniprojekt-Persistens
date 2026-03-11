@@ -40,14 +40,15 @@ public class OrderController {
         return ol;
     }
 
-    public void confirmOrder() {
-        order.calculateTotal();
+    public Order confirmOrder() {
         oDB.insertOrder(order);
 
-        // Insert order lines
         for (OrderLine ol : order.getOrderLines()) {
             OrderLineDB.getInstance().insertOrderLine(ol, order.getOrderNo());
         }
+
+        return order;
     }
+
 }
 
