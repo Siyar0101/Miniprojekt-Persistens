@@ -1,5 +1,22 @@
 package controller;
 
-public class CustomerController {
+import java.util.List;
 
+import db.CustomerDB;
+import model.Customer;
+
+public class CustomerController {
+    private CustomerDB cDB;
+
+    public CustomerController() {
+        cDB = CustomerDB.getInstance();
+    }
+
+    public Customer findCustomer(String phoneNo) {
+        return cDB.findCustomer(phoneNo);
+    }
+
+    public List<Customer> getAllCustomers() {
+        return cDB.getAllCustomers();
+    }
 }
