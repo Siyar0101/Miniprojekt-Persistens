@@ -46,7 +46,7 @@ public class OrderDB {
             conn.close();
 
             if (order != null) {
-                loadOrderLines(order);
+                getOrderLines(order);
                 order.calculateTotal();
             }
 
@@ -71,7 +71,7 @@ public class OrderDB {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Order o = buildOrder(rs);
-                loadOrderLines(o);
+                getOrderLines(o);
                 o.calculateTotal();
                 orders.add(o);
             }
@@ -134,7 +134,7 @@ public class OrderDB {
         return o;
     }
 
-    private void loadOrderLines(Order order) throws Exception {
+    private void getOrderLines(Order order) throws Exception {
         String sql = "SELECT * FROM OrderLines WHERE orderNo = ?";
         Connection conn = new DBConnection().getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql);
