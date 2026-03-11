@@ -10,6 +10,12 @@ public class Equipment extends Product {
         this.style = style;
     }
 
-    public String getMaterial() { return material; }
-    public String getStyle() { return style; }
+	public String getMaterial() {
+		return material;
+	}
+
+	public String getStyle() {
+		return style;
+	}
+
 }

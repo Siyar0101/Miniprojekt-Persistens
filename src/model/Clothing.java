@@ -10,7 +10,14 @@ public class Clothing extends Product {
         this.colour = colour;
     }
 
-    public String getSize() { return size; }
-    public String getColour() { return colour; }
+	public String getSize() {
+		return size;
+	}
+
+	public String getColour() {
+		return colour;
+	}
+
+
 }
 
