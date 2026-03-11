@@ -6,9 +6,7 @@ import java.util.List;
 
 public class Order {
     private Customer c;
-   
-
-	private List<OrderLine> orderLines = new ArrayList<>();
+    private List<OrderLine> orderLines = new ArrayList<>();
     private int orderNo;
     private LocalDateTime date;
     private double amount;
@@ -34,52 +32,56 @@ public class Order {
         amount = total - discountGiven;
         return amount;
     }
+
+    // --- getters 
     
-    public Customer getC() {
-		return c;
-	}
+    public Customer getCustomer() {
+        return c;
+    }
 
-	public void setC(Customer c) {
-		this.c = c;
-	}
+    public List<OrderLine> getOrderLines() {
+        return orderLines;
+    }
 
-	public List<OrderLine> getOrderLines() {
-		return orderLines;
-	}
+    public int getOrderNo() {
+        return orderNo;
+    }
 
-	public void setOrderLines(List<OrderLine> orderLines) {
-		this.orderLines = orderLines;
-	}
+    public LocalDateTime getDate() {
+        return date;
+    }
 
-	public int getOrderNo() {
-		return orderNo;
-	}
+    public double getAmount() {
+        return amount;
+    }
 
-	public void setOrderNo(int orderNo) {
-		this.orderNo = orderNo;
-	}
+    public double getDiscountGiven() {
+        return discountGiven;
+    }
 
-	public LocalDateTime getDate() {
-		return date;
-	}
+    // --- setters 
 
-	public void setDate(LocalDateTime date) {
-		this.date = date;
-	}
+    public void setCustomer(Customer c) {
+        this.c = c;
+    }
 
-	public double getAmount() {
-		return amount;
-	}
+    public void setOrderLines(List<OrderLine> orderLines) {
+        this.orderLines = orderLines;
+    }
 
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
+    public void setOrderNo(int orderNo) {
+        this.orderNo = orderNo;
+    }
 
-	public double getDiscountGiven() {
-		return discountGiven;
-	}
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
 
-	public void setDiscountGiven(double discountGiven) {
-		this.discountGiven = discountGiven;
-	}
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public void setDiscountGiven(double discountGiven) {
+        this.discountGiven = discountGiven;
+    }
 }
