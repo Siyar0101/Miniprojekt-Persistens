@@ -1,5 +1,7 @@
 package gui;
 
+import controller.OrderController;
+
 public class OrderUI {
     private OrderController oCtrl;
 
