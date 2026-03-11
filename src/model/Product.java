@@ -31,7 +31,11 @@ public class Product {
     	return reservedStock; 
     }
 
-    public double getPrice(LocalDate date) {
+    public void setProductNo(int productNo) {
+		this.productNo = productNo;
+	}
+
+	public double getPrice(LocalDate date) {
         // Implement price lookup logic
         return 0;
     }
