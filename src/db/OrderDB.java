@@ -32,7 +32,7 @@ public class OrderDB {
 	}
 
 	public void insertOrder(Order o) {
-		String sql = "INSERT INTO SaleOrder (orderNo, customerPhoneNo, date, amount, discountGiven) VALUES (?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO SaleOrder (orderNo, phoneNo, date, amount, discountGiven) VALUES (?, ?, ?, ?, ?)";
 
 		try {
 			DBConnection db = new DBConnection();
