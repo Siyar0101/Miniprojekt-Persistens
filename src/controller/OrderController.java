@@ -16,7 +16,7 @@ public class OrderController {
     public OrderController() {
         cCtrl = new CustomerController();
         pCtrl = new ProductController();
-        oDB = OrderDB.getInstance();
+        oDB = new OrderDB();
     }
 
     public void placeOrder() {
@@ -44,11 +44,12 @@ public class OrderController {
         oDB.insertOrder(order);
 
         for (OrderLine ol : order.getOrderLines()) {
-            OrderLineDB.getInstance().insertOrderLine(ol, order.getOrderNo());
+            new OrderLineDB().insertOrderLine(ol, order.getOrderNo());
         }
 
         return order;
     }
+
 
 }
 

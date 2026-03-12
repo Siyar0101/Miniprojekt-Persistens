@@ -56,11 +56,4 @@ public class OrderLineDB {
 		Product p = new ProductDB().findProduct(rs.getInt("productNo"));
 		return new OrderLine(p, rs.getInt("quantity"));
 	}
-
-	public static OrderLineDB getInstance() {
-		if (instance == null) {
-			instance = new OrderLineDB();
-		}
-		return instance;
-	}
 }

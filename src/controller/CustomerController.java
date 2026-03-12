@@ -9,7 +9,7 @@ public class CustomerController {
     private CustomerDB cDB;
 
     public CustomerController() {
-        cDB = CustomerDB.getInstance();
+        cDB = new CustomerDB();
     }
 
     public Customer findCustomer(String phoneNo) {

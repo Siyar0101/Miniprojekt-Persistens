@@ -57,11 +57,4 @@ public class CustomerDB {
 		return new Customer(rs.getString("name"), rs.getString("address"), rs.getInt("zipcode"), rs.getString("city"),
 				rs.getString("phoneNo"), rs.getString("email"), rs.getString("customerType"));
 	}
-
-	public static CustomerDB getInstance() {
-		if (instance == null) {
-			instance = new CustomerDB();
-		}
-		return instance;
-	}
 }

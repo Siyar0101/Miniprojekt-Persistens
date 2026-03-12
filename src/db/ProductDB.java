@@ -57,11 +57,4 @@ public class ProductDB {
 		return new Product(rs.getInt("productNo"), rs.getString("name"), rs.getInt("minStock"),
 				rs.getInt("reservedStock"));
 	}
-
-	public static ProductDB getInstance() {
-		if (instance == null) {
-			instance = new ProductDB();
-		}
-		return instance;
-	}
 }

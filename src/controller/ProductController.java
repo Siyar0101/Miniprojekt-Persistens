@@ -9,7 +9,8 @@ public class ProductController {
     private ProductDB pDB;
 
     public ProductController() {
-        pDB = ProductDB.getInstance();
+    	pDB = new ProductDB();
+
     }
 
     public Product findProduct(int productNo) {

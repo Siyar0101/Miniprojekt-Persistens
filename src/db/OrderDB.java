@@ -60,11 +60,4 @@ public class OrderDB {
 		return o;
 	}
 
-	public static OrderDB getInstance() {
-		if (instance == null) {
-			instance = new OrderDB();
-		}
-		return instance;
-	}
-
 }
