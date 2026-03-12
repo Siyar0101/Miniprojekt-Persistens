@@ -6,7 +6,6 @@ import java.sql.*;
 
 public class OrderDB {
 
-	private static OrderDB instance;
 
 	public Order findOrder(int orderNo) {
 		Order o = null;
@@ -58,13 +57,6 @@ public class OrderDB {
 		o.setDate(rs.getTimestamp("date").toLocalDateTime());
 		o.setDiscountGiven(rs.getDouble("discountGiven"));
 		return o;
-	}
-
-	public static OrderDB getInstance() {
-		if (instance == null) {
-			instance = new OrderDB();
-		}
-		return instance;
 	}
 
 }

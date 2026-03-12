@@ -7,7 +7,6 @@ import java.util.List;
 
 public class CustomerDB {
 
-	private static CustomerDB instance;
 
 	public Customer findCustomer(String phoneNo) {
 		Customer c = null;
@@ -56,12 +55,5 @@ public class CustomerDB {
 	private Customer buildCustomer(ResultSet rs) throws SQLException {
 		return new Customer(rs.getString("name"), rs.getString("address"), rs.getInt("zipcode"), rs.getString("city"),
 				rs.getString("phoneNo"), rs.getString("email"), rs.getString("customerType"));
-	}
-
-	public static CustomerDB getInstance() {
-		if (instance == null) {
-			instance = new CustomerDB();
-		}
-		return instance;
 	}
 }

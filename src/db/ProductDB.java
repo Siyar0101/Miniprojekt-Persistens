@@ -7,7 +7,6 @@ import java.util.List;
 
 public class ProductDB {
 
-	private static ProductDB instance;
 
 	public Product findProduct(int productNo) {
 		Product p = null;
@@ -56,12 +55,5 @@ public class ProductDB {
 	private Product buildProduct(ResultSet rs) throws SQLException {
 		return new Product(rs.getInt("productNo"), rs.getString("name"), rs.getInt("minStock"),
 				rs.getInt("reservedStock"));
-	}
-
-	public static ProductDB getInstance() {
-		if (instance == null) {
-			instance = new ProductDB();
-		}
-		return instance;
 	}
 }

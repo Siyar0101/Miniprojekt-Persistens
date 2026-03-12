@@ -8,7 +8,6 @@ import java.util.List;
 
 public class OrderLineDB {
 
-	private static OrderLineDB instance;
 
 	public void insertOrderLine(OrderLine ol, int orderNo) {
 		String sql = "INSERT INTO OrderLine (orderNo, productNo, quantity) VALUES (?, ?, ?)";
@@ -55,12 +54,5 @@ public class OrderLineDB {
 	private OrderLine buildOrderLine(ResultSet rs) throws SQLException {
 		Product p = new ProductDB().findProduct(rs.getInt("productNo"));
 		return new OrderLine(p, rs.getInt("quantity"));
-	}
-
-	public static OrderLineDB getInstance() {
-		if (instance == null) {
-			instance = new OrderLineDB();
-		}
-		return instance;
 	}
 }
