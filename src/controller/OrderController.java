@@ -8,6 +8,7 @@ import model.OrderLine;
 import model.Product;
 
 public class OrderController {
+
     private CustomerController cCtrl;
     private ProductController pCtrl;
     private OrderDB oDB;
@@ -26,7 +27,15 @@ public class OrderController {
     public Customer addCustomer(String phoneNo) {
         Customer c = cCtrl.findCustomer(phoneNo);
         if (c != null) {
-            order.addCustomer(c);
+            order.addCustomer(c);   // ✔ stores the actual Customer object
+        }
+        return c;
+    }
+
+    public Customer addCustomerById(int id) {
+        Customer c = cCtrl.findCustomerById(id);
+        if (c != null) {
+            order.addCustomer(c);   // ✔ same fix
         }
         return c;
     }
@@ -41,23 +50,15 @@ public class OrderController {
     }
 
     public Order confirmOrder() {
+        // ✔ Insert order first (this generates order.id)
         oDB.insertOrder(order);
 
+        // ✔ Insert each order line using order.getId()
+        OrderLineDB olDB = new OrderLineDB();
         for (OrderLine ol : order.getOrderLines()) {
-            new OrderLineDB().insertOrderLine(ol, order.getOrderNo());
+            olDB.insertOrderLine(ol, order.getId());
         }
 
         return order;
     }
-    public Customer addCustomerById(int id) {
-        Customer c = cCtrl.findCustomerById(id);
-        if (c != null) {
-            order.addCustomer(c);
-        }
-        return c;
-    }
-
-
-
 }
-

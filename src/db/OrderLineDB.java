@@ -5,28 +5,23 @@ import java.sql.*;
 
 public class OrderLineDB {
 
-    public void insertOrderLine(OrderLine ol, int orderNo) {
-        String sql = "INSERT INTO SaleOrderLine (saleorder_id, product_id, quantity) VALUES (?, ?, ?)";
+	public void insertOrderLine(OrderLine ol, int orderId) {
+		String sql = "INSERT INTO OrderLine (saleorder_id, product_id, quantity) VALUES (?, ?, ?)";
 
-        try {
-            DBConnection db = new DBConnection();
-            Connection con = db.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql);
+		try {
+			DBConnection db = new DBConnection();
+			Connection con = db.getConnection();
+			PreparedStatement ps = con.prepareStatement(sql);
 
-            // ✔ saleorder_id → the order number from SaleOrder
-            ps.setInt(1, orderNo);
+			ps.setInt(1, orderId); // ✔ use id
+			ps.setInt(2, ol.getProduct().getId());
+			ps.setInt(3, ol.getQuantity());
 
-            // ✔ product_id → the product number from Product
-            ps.setInt(2, ol.getProduct().getProductNo());
+			ps.executeUpdate();
+			con.close();
 
-            // ✔ quantity → the quantity from OrderLine
-            ps.setInt(3, ol.getQuantity());
-
-            ps.executeUpdate();
-            con.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

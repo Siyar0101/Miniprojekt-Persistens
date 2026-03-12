@@ -3,46 +3,44 @@ package model;
 import java.time.LocalDate;
 
 public class Product {
-    private int productNo;
+
+    private int id;              // ✔ matches Product.id in the database
     private String name;
     private int minStock;
     private int reservedStock;
 
-    public Product(int productNo, String name, int minStock, int reservedStock) {
-        this.productNo = productNo;
+    public Product(int id, String name, int minStock, int reservedStock) {
+        this.id = id;
         this.name = name;
         this.minStock = minStock;
         this.reservedStock = reservedStock;
     }
 
-    public int getProductNo() { 
-    	return productNo; 
+    public int getId() { 
+        return id; 
     }
-    
+
     public String getName() { 
-    	return name; 
+        return name; 
     }
-    
+
     public int getMinStock() { 
-    	return minStock; 
+        return minStock; 
     }
-    
+
     public int getReservedStock() { 
-    	return reservedStock; 
+        return reservedStock; 
     }
 
-    public void setProductNo(int productNo) {
-		this.productNo = productNo;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public double getPrice(LocalDate date) {
-        // Implement price lookup logic
-        return 0;
+    public double getPrice(LocalDate date) {
+        return 0; // implement later
     }
 
     public int calculateTotalAvailableStock() {
-        // Implement stock summation logic
-        return 0;
+        return 0; // implement later
     }
 }
-
