@@ -7,53 +7,96 @@ import java.util.List;
 
 public class CustomerDB {
 
+    // ---------------------------------------------------------
+    // FIND CUSTOMER BY PHONE NUMBER
+    // ---------------------------------------------------------
+    public Customer findCustomer(String phoneNo) {
+        Customer c = null;
+        String sql = "SELECT * FROM Customer WHERE phoneNo = ?";
 
-	public Customer findCustomer(String phoneNo) {
-		Customer c = null;
-		String sql = "SELECT * FROM Customer WHERE phoneNo = ?";
+        try {
+            DBConnection db = new DBConnection();
+            Connection con = db.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
 
-		try {
-			DBConnection db = new DBConnection();
-			Connection con = db.getConnection();
-			PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, phoneNo);
+            ResultSet rs = ps.executeQuery();
 
-			ps.setString(1, phoneNo);
-			ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                c = buildCustomer(rs);
+            }
 
-			if (rs.next()) {
-				c = buildCustomer(rs);
-			}
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return c;
+    }
 
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return c;
-	}
+    // ---------------------------------------------------------
+    // FIND CUSTOMER BY ID  (NEW)
+    // ---------------------------------------------------------
+    public Customer findCustomerById(int id) {
+        Customer c = null;
+        String sql = "SELECT * FROM Customer WHERE id = ?";
 
-	public List<Customer> getAllCustomers() {
-		List<Customer> list = new ArrayList<>();
-		String sql = "SELECT * FROM Customer";
+        try {
+            DBConnection db = new DBConnection();
+            Connection con = db.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
 
-		try {
-			DBConnection db = new DBConnection();
-			Connection con = db.getConnection();
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
 
-			while (rs.next()) {
-				list.add(buildCustomer(rs));
-			}
+            if (rs.next()) {
+                c = buildCustomer(rs);
+            }
 
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return c;
+    }
 
-	private Customer buildCustomer(ResultSet rs) throws SQLException {
-		return new Customer(rs.getString("name"), rs.getString("address"), rs.getInt("zipcode"), rs.getString("city"),
-				rs.getString("phoneNo"), rs.getString("email"), rs.getString("customerType"));
-	}
+    // ---------------------------------------------------------
+    // GET ALL CUSTOMERS
+    // ---------------------------------------------------------
+    public List<Customer> getAllCustomers() {
+        List<Customer> list = new ArrayList<>();
+        String sql = "SELECT * FROM Customer";
+
+        try {
+            DBConnection db = new DBConnection();
+            Connection con = db.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                list.add(buildCustomer(rs));
+            }
+
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // ---------------------------------------------------------
+    // BUILD CUSTOMER OBJECT
+    // ---------------------------------------------------------
+    private Customer buildCustomer(ResultSet rs) throws SQLException {
+        return new Customer(
+                rs.getInt("id"),           
+                rs.getString("name"),
+                rs.getString("address"),
+                rs.getInt("zipcode"),
+                rs.getString("city"),
+                rs.getString("phoneNo"),
+                rs.getString("email"),
+                rs.getString("customerType")
+        );
+    }
+
 }

@@ -49,6 +49,14 @@ public class OrderController {
 
         return order;
     }
+    public Customer addCustomerById(int id) {
+        Customer c = cCtrl.findCustomerById(id);
+        if (c != null) {
+            order.addCustomer(c);
+        }
+        return c;
+    }
+
 
 
 }

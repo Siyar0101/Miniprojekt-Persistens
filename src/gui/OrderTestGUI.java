@@ -1,6 +1,5 @@
 package gui;
 
-
 import controller.OrderController;
 import javax.swing.*;
 import java.awt.*;
@@ -9,9 +8,9 @@ public class OrderTestGUI extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
-	private OrderController oCtrl = new OrderController();
+    private OrderController oCtrl = new OrderController();
 
-    private JTextField txtPhone = new JTextField(10);
+    private JTextField txtCustomerId = new JTextField(10);   // ✔ correct field
     private JTextField txtProductNo = new JTextField(5);
     private JTextField txtQty = new JTextField(5);
     private JTextArea output = new JTextArea(10, 30);
@@ -23,8 +22,8 @@ public class OrderTestGUI extends JFrame {
 
         JPanel panel = new JPanel(new GridLayout(0, 2, 5, 5));
 
-        panel.add(new JLabel("Customer Phone:"));
-        panel.add(txtPhone);
+        panel.add(new JLabel("Customer ID:"));
+        panel.add(txtCustomerId);   // ✔ fixed
 
         panel.add(new JLabel("Product No:"));
         panel.add(txtProductNo);
@@ -43,8 +42,13 @@ public class OrderTestGUI extends JFrame {
         });
 
         btnAddCustomer.addActionListener(e -> {
-            var c = oCtrl.addCustomer(txtPhone.getText());
-            output.append("Customer added: " + (c != null ? c.getName() : "NOT FOUND") + "\n");
+            try {
+                int id = Integer.parseInt(txtCustomerId.getText());   // ✔ fixed
+                var c = oCtrl.addCustomerById(id);                       // ✔ correct method
+                output.append("Customer added: " + (c != null ? c.getName() : "NOT FOUND") + "\n");
+            } catch (Exception ex) {
+                output.append("Invalid customer ID\n");
+            }
         });
 
         btnAddProduct.addActionListener(e -> {

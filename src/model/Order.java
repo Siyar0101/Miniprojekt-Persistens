@@ -5,19 +5,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-    private Customer c;
+
+    private Customer customer;              // ✔ store the actual customer object
     private List<OrderLine> orderLines = new ArrayList<>();
     private int orderNo;
     private LocalDateTime date;
     private double amount;
     private double discountGiven;
+    private int customerId;                 // ✔ store the FK for DB insert
 
     public Order() {
         this.date = LocalDateTime.now();
     }
 
+    // ✔ FIXED: store BOTH the object and the ID
     public void addCustomer(Customer c) {
-        this.c = c;
+        this.customer = c;
+        this.customerId = c.getId();
     }
 
     public void addOrderLine(OrderLine ol) {
@@ -33,10 +37,14 @@ public class Order {
         return amount;
     }
 
-    // --- getters 
-    
+    // --- getters
+
     public Customer getCustomer() {
-        return c;
+        return customer;                    // ✔ now returns the actual customer
+    }
+
+    public int getCustomerId() {
+        return customerId;                  // ✔ used by OrderDB
     }
 
     public List<OrderLine> getOrderLines() {
@@ -59,10 +67,11 @@ public class Order {
         return discountGiven;
     }
 
-    // --- setters 
+    // --- setters
 
     public void setCustomer(Customer c) {
-        this.c = c;
+        this.customer = c;
+        this.customerId = c.getId();        // ✔ keep ID in sync
     }
 
     public void setOrderLines(List<OrderLine> orderLines) {
