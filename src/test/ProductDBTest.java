@@ -14,10 +14,7 @@ import model.Product;
  * products from the database using product numbers. The tests validate that
  * valid lookups return Product objects, while invalid lookups return null.
  * 
- * NOTE: These tests require that the database contains test data.
- * 
- * @author Andreas Larsen, Magnus Remmer,
- *         Benyamin Mannan, Said Hamidi, Siyar Ustun
+ * @author Andreas Larsen, Magnus Remmer, Benyamin Mannan, Said Hamidi, Siyar Ustun
  * @version 1.0
  */
 public class ProductDBTest {
