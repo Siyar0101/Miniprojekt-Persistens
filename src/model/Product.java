@@ -9,13 +9,16 @@ public class Product {
     private String name;
     private int minStock;
     private int reservedStock;
+    private double price;
 
-    public Product(int id, int productNo, String name, int minStock, int reservedStock) {
+
+    public Product(int id, int productNo, String name, int minStock, int reservedStock, double price) {
         this.id = id;
         this.productNo = productNo;
         this.name = name;
         this.minStock = minStock;
         this.reservedStock = reservedStock;
+        this.price = price;
     }
 
     public int getId() {
@@ -37,6 +40,11 @@ public class Product {
     public int getReservedStock() {
         return reservedStock;
     }
+    
+    public double getPrice() {
+        return price;
+    }
+
 
     public void setId(int id) {
         this.id = id;

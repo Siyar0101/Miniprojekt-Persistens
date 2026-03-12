@@ -26,6 +26,7 @@ public class OrderLine {
     }
 
     public double calculateSubtotal() {
-        return product.getPrice(LocalDate.now()) * quantity;
+        return product.getPrice() * quantity;
     }
+
 }

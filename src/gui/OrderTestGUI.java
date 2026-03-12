@@ -70,10 +70,16 @@ public class OrderTestGUI extends JFrame {
                 OrderLine ol = oCtrl.addProduct(pNo, qty);
 
                 if (ol != null) {
+                    double price = ol.getProduct().getPrice();
+                    double subtotal = ol.calculateSubtotal();
+
                     output.append("Product added: "
                             + ol.getProduct().getName()
                             + " (" + ol.getProduct().getProductNo() + ") x"
-                            + ol.getQuantity() + "\n");
+                            + ol.getQuantity()
+                            + " | Price: " + price
+                            + " | Subtotal: " + subtotal
+                            + "\n");
                 } else {
                     output.append("Product NOT FOUND\n");
                 }

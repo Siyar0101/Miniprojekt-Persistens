@@ -53,11 +53,13 @@ public class ProductDB {
 
     private Product buildProduct(ResultSet rs) throws SQLException {
         return new Product(
-            rs.getInt("id"),             // ✔ correct PK
-            rs.getInt("productNo"),      // ✔ business number
+            rs.getInt("id"),
+            rs.getInt("productNo"),
             rs.getString("name"),
             rs.getInt("minStock"),
-            rs.getInt("reservedStock")
+            rs.getInt("reservedStock"),
+            rs.getDouble("price")     // ← NEW
         );
     }
+
 }

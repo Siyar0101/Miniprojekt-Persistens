@@ -52,7 +52,11 @@ public class Order {
 	}
 
 	public double getAmount() {
-		return amount;
+	    double total = 0;
+	    for (OrderLine ol : orderLines) {
+	        total += ol.calculateSubtotal();
+	    }
+	    return total;
 	}
 
 	public double getDiscountGiven() {
