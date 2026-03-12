@@ -7,7 +7,6 @@ import java.util.List;
 
 public class ProductDB {
 
-	private static ProductDB instance;
 
 	public Product findProduct(int productNo) {
 		Product p = null;

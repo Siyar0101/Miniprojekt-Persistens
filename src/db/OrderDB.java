@@ -6,7 +6,6 @@ import java.sql.*;
 
 public class OrderDB {
 
-	private static OrderDB instance;
 
 	public Order findOrder(int orderNo) {
 		Order o = null;

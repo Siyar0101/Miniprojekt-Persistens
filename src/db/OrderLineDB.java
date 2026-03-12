@@ -8,7 +8,6 @@ import java.util.List;
 
 public class OrderLineDB {
 
-	private static OrderLineDB instance;
 
 	public void insertOrderLine(OrderLine ol, int orderNo) {
 		String sql = "INSERT INTO OrderLine (orderNo, productNo, quantity) VALUES (?, ?, ?)";

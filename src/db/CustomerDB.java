@@ -7,7 +7,6 @@ import java.util.List;
 
 public class CustomerDB {
 
-	private static CustomerDB instance;
 
 	public Customer findCustomer(String phoneNo) {
 		Customer c = null;
