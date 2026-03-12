@@ -3,17 +3,18 @@ package model;
 import java.time.LocalDate;
 
 public class OrderLine {
-    private Product p;
+
+    private Product product;   // ✔ renamed for clarity and consistency
     private int quantity;
     private Order order;
 
-    public OrderLine(Product p, int quantity) {
-        this.p = p;
+    public OrderLine(Product product, int quantity) {
+        this.product = product;
         this.quantity = quantity;
     }
 
     public Product getProduct() {
-        return p;
+        return product;        // ✔ now matches the field name
     }
 
     public int getQuantity() {
@@ -25,8 +26,6 @@ public class OrderLine {
     }
 
     public double calculateSubtotal() {
-        
-        return p.getPrice(LocalDate.now()) * quantity;
+        return product.getPrice(LocalDate.now()) * quantity;
     }
 }
-

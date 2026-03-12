@@ -1,6 +1,8 @@
 package gui;
 
 import controller.OrderController;
+import model.OrderLine;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,7 +12,7 @@ public class OrderTestGUI extends JFrame {
 
     private OrderController oCtrl = new OrderController();
 
-    private JTextField txtCustomerId = new JTextField(10);   // ✔ correct field
+    private JTextField txtCustomerId = new JTextField(10);
     private JTextField txtProductNo = new JTextField(5);
     private JTextField txtQty = new JTextField(5);
     private JTextArea output = new JTextArea(10, 30);
@@ -23,7 +25,7 @@ public class OrderTestGUI extends JFrame {
         JPanel panel = new JPanel(new GridLayout(0, 2, 5, 5));
 
         panel.add(new JLabel("Customer ID:"));
-        panel.add(txtCustomerId);   // ✔ fixed
+        panel.add(txtCustomerId);
 
         panel.add(new JLabel("Product No:"));
         panel.add(txtProductNo);
@@ -36,32 +38,52 @@ public class OrderTestGUI extends JFrame {
         JButton btnAddProduct = new JButton("Add Product");
         JButton btnConfirm = new JButton("Confirm Order");
 
+        // Start new order
         btnNewOrder.addActionListener(e -> {
             oCtrl.placeOrder();
             output.append("New order started\n");
         });
 
+        // Add customer
         btnAddCustomer.addActionListener(e -> {
             try {
-                int id = Integer.parseInt(txtCustomerId.getText());   // ✔ fixed
-                var c = oCtrl.addCustomerById(id);                       // ✔ correct method
-                output.append("Customer added: " + (c != null ? c.getName() : "NOT FOUND") + "\n");
+                int id = Integer.parseInt(txtCustomerId.getText());
+                var c = oCtrl.addCustomerById(id);
+
+                if (c != null) {
+                    output.append("Customer added: " + c.getName() + "\n");
+                } else {
+                    output.append("Customer NOT FOUND\n");
+                }
+
             } catch (Exception ex) {
                 output.append("Invalid customer ID\n");
             }
         });
 
+        // Add product
         btnAddProduct.addActionListener(e -> {
             try {
                 int pNo = Integer.parseInt(txtProductNo.getText());
                 int qty = Integer.parseInt(txtQty.getText());
-                var ol = oCtrl.addProduct(pNo, qty);
-                output.append("Added product: " + pNo + " x" + qty + "\n");
+
+                OrderLine ol = oCtrl.addProduct(pNo, qty);
+
+                if (ol != null) {
+                    output.append("Product added: "
+                            + ol.getProduct().getName()
+                            + " (" + ol.getProduct().getProductNo() + ") x"
+                            + ol.getQuantity() + "\n");
+                } else {
+                    output.append("Product NOT FOUND\n");
+                }
+
             } catch (Exception ex) {
                 output.append("Invalid product or quantity\n");
             }
         });
 
+        // Confirm order
         btnConfirm.addActionListener(e -> {
             var order = oCtrl.confirmOrder();
             output.append("Order confirmed. Total: " + order.getAmount() + "\n");
