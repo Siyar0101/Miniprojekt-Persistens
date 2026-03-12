@@ -1,5 +1,6 @@
 package db;
 
+import model.Customer;
 import model.Order;
 import java.sql.*;
 
@@ -55,12 +56,18 @@ public class OrderDB {
 		}
 	}
 
-	private Order buildOrder(ResultSet rs) throws SQLException {
-		Order o = new Order();
-		o.setId(rs.getInt("id"));
-		o.setDate(rs.getTimestamp("date").toLocalDateTime());
-		o.setDiscountGiven(rs.getDouble("discountGiven"));
-		o.setAmount(rs.getDouble("amount"));
-		return o;
-	}
+		private Order buildOrder(ResultSet rs) throws SQLException {
+		    Order o = new Order();
+		    o.setId(rs.getInt("id"));
+		    o.setDate(rs.getTimestamp("date").toLocalDateTime());
+		    o.setDiscountGiven(rs.getDouble("discountGiven"));
+		    o.setAmount(rs.getDouble("amount"));
+		    
+		    // Tilføj Customer fra database
+		    int customerId = rs.getInt("customer_id");
+		    Customer c = new CustomerDB().findCustomerById(customerId);
+		    o.setCustomer(c);
+		    
+		    return o;
+		}
 }
