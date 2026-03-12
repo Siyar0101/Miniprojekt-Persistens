@@ -5,11 +5,23 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Database access class for Customer entity.
+ * 
+ * This class handles all database operations related to Customer objects,
+ * including finding customers by phone number or ID, and retrieving all customers.
+ * 
+ * @author Andreas Larsen, Magnus Remmer, Benyamin Mannan, Said Hamidi, Siyar Ustun
+ * @version 1.0
+ */
 public class CustomerDB {
 
-    // ---------------------------------------------------------
-    // FIND CUSTOMER BY PHONE NUMBER
-    // ---------------------------------------------------------
+    /**
+     * Finds a customer in the database by phone number.
+     * 
+     * @param phoneNo the phone number of the customer to find
+     * @return the Customer object if found, null otherwise
+     */
     public Customer findCustomer(String phoneNo) {
         Customer c = null;
         String sql = "SELECT * FROM Customer WHERE phoneNo = ?";
@@ -33,9 +45,12 @@ public class CustomerDB {
         return c;
     }
 
-    // ---------------------------------------------------------
-    // FIND CUSTOMER BY ID  (NEW)
-    // ---------------------------------------------------------
+    /**
+     * Finds a customer in the database by ID.
+     * 
+     * @param id the unique identifier of the customer
+     * @return the Customer object if found, null otherwise
+     */
     public Customer findCustomerById(int id) {
         Customer c = null;
         String sql = "SELECT * FROM Customer WHERE id = ?";
@@ -59,9 +74,11 @@ public class CustomerDB {
         return c;
     }
 
-    // ---------------------------------------------------------
-    // GET ALL CUSTOMERS
-    // ---------------------------------------------------------
+    /**
+     * Retrieves all customers from the database.
+     * 
+     * @return a List containing all Customer objects
+     */
     public List<Customer> getAllCustomers() {
         List<Customer> list = new ArrayList<>();
         String sql = "SELECT * FROM Customer";
@@ -83,9 +100,13 @@ public class CustomerDB {
         return list;
     }
 
-    // ---------------------------------------------------------
-    // BUILD CUSTOMER OBJECT
-    // ---------------------------------------------------------
+    /**
+     * Builds a Customer object from a ResultSet row.
+     * 
+     * @param rs the ResultSet containing customer data
+     * @return a new Customer object with data from the ResultSet
+     * @throws SQLException if a database access error occurs
+     */
     private Customer buildCustomer(ResultSet rs) throws SQLException {
         return new Customer(
                 rs.getInt("id"),           

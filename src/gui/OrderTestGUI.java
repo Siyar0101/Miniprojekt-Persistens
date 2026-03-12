@@ -6,6 +6,15 @@ import model.OrderLine;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Test GUI for order management.
+ * 
+ * This class provides a graphical user interface for testing order functionality,
+ * including adding customers, products, and confirming orders.
+ * 
+ * @author Andreas Larsen, Magnus Remmer, Benyamin Mannan, Said Hamidi, Siyar Ustun
+ * @version 1.0
+ */
 public class OrderTestGUI extends JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -17,6 +26,9 @@ public class OrderTestGUI extends JFrame {
     private JTextField txtQty = new JTextField(5);
     private JTextArea output = new JTextArea(10, 30);
 
+    /**
+     * Constructor initializing the OrderTestGUI window and components.
+     */
     public OrderTestGUI() {
         setTitle("Order Test GUI");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,21 +49,23 @@ public class OrderTestGUI extends JFrame {
         JButton btnAddCustomer = new JButton("Add Customer");
         JButton btnAddProduct = new JButton("Add Product");
         JButton btnConfirm = new JButton("Confirm Order");
+        JButton btnCancel = new JButton("Cancel Order");
 
         // Start new order
-        btnNewOrder.addActionListener(e -> {
+        btnNewOrder.addActionListener(_ -> {
             oCtrl.placeOrder();
             output.append("New order started\n");
         });
 
         // Add customer
-        btnAddCustomer.addActionListener(e -> {
+        btnAddCustomer.addActionListener(_ -> {
             try {
                 int id = Integer.parseInt(txtCustomerId.getText());
                 var c = oCtrl.addCustomerById(id);
 
                 if (c != null) {
-                    output.append("Customer added: " + c.getName() + "\n");
+                    String type = c.getCustomerType() == null ? "unknown" : c.getCustomerType();
+                    output.append("Customer added: " + c.getName() + " [" + type + "]\n");
                 } else {
                     output.append("Customer NOT FOUND\n");
                 }
@@ -62,7 +76,7 @@ public class OrderTestGUI extends JFrame {
         });
 
         // Add product
-        btnAddProduct.addActionListener(e -> {
+        btnAddProduct.addActionListener(_ -> {
             try {
                 int pNo = Integer.parseInt(txtProductNo.getText());
                 int qty = Integer.parseInt(txtQty.getText());
@@ -90,9 +104,60 @@ public class OrderTestGUI extends JFrame {
         });
 
         // Confirm order
-        btnConfirm.addActionListener(e -> {
+        btnConfirm.addActionListener(_ -> {
             var order = oCtrl.confirmOrder();
-            output.append("Order confirmed. Total: " + order.getAmount() + "\n");
+            if (order == null) {
+                output.append("No active order to confirm\n");
+                return;
+            }
+
+            // Compute subtotal from order lines for clarity
+            double subtotal = 0.0;
+            if (order.getOrderLines() != null) {
+                for (var ol : order.getOrderLines()) {
+                    subtotal += ol.calculateSubtotal();
+                }
+            }
+
+            double amount = order.getAmount();
+            double discount = order.getDiscountGiven();
+
+            String customerType = "(no customer)";
+            if (order.getCustomer() != null && order.getCustomer().getCustomerType() != null) {
+                customerType = order.getCustomer().getCustomerType();
+            }
+
+            String msg = String.format("Order confirmed. Total: %.2f", amount);
+            // Do not display customer type anymore; only show subtotal
+            msg += String.format(" | Subtotal: %.2f", subtotal);
+
+            if (discount > 0.0) {
+                double percent = (discount / subtotal) * 100.0;
+                msg += String.format(" | Discount: %.2f (%.0f%%)", discount, percent);
+
+            } else {
+                // Explain why no discount was applied
+                if (!customerType.equalsIgnoreCase("club")) {
+                    msg += " | No discount: customer is not 'club'";
+                } else if (subtotal <= 1500.0) {
+                    msg += " | No discount: subtotal not high enough";
+                }
+            }
+
+            output.append(msg + "\n");
+        });
+
+        // Cancel order
+        btnCancel.addActionListener(_ -> {
+            if (JOptionPane.showConfirmDialog(this,
+                    "Are you sure you want to cancel the current order?",
+                    "Confirm cancel",
+                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                oCtrl.cancelOrder();
+                output.append("Order cancelled\n");
+            } else {
+                output.append("Order not cancelled\n");
+            }
         });
 
         JPanel buttons = new JPanel();
@@ -100,6 +165,7 @@ public class OrderTestGUI extends JFrame {
         buttons.add(btnAddCustomer);
         buttons.add(btnAddProduct);
         buttons.add(btnConfirm);
+        buttons.add(btnCancel);
 
         add(panel, BorderLayout.NORTH);
         add(buttons, BorderLayout.CENTER);
@@ -110,6 +176,11 @@ public class OrderTestGUI extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Main method to start the OrderTestGUI application.
+     * 
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         new OrderTestGUI();
     }
