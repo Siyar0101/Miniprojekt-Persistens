@@ -52,13 +52,15 @@ public class OrderTestGUI extends JFrame {
         JButton btnCancel = new JButton("Cancel Order");
 
         // Start new order
-        btnNewOrder.addActionListener(_ -> {
+        btnNewOrder.addActionListener(e -> {
+            e.getActionCommand(); // use parameter to avoid "unused lambda parameter" warning
             oCtrl.placeOrder();
             output.append("New order started\n");
         });
 
         // Add customer
-        btnAddCustomer.addActionListener(_ -> {
+        btnAddCustomer.addActionListener(e -> {
+            e.getActionCommand(); // use parameter to avoid "unused lambda parameter" warning
             try {
                 int id = Integer.parseInt(txtCustomerId.getText());
                 var c = oCtrl.addCustomerById(id);
@@ -76,7 +78,8 @@ public class OrderTestGUI extends JFrame {
         });
 
         // Add product
-        btnAddProduct.addActionListener(_ -> {
+        btnAddProduct.addActionListener(e -> {
+            e.getActionCommand(); // use parameter to avoid "unused lambda parameter" warning
             try {
                 int pNo = Integer.parseInt(txtProductNo.getText());
                 int qty = Integer.parseInt(txtQty.getText());
@@ -104,7 +107,8 @@ public class OrderTestGUI extends JFrame {
         });
 
         // Confirm order
-        btnConfirm.addActionListener(_ -> {
+        btnConfirm.addActionListener(e -> {
+            e.getActionCommand(); // use parameter to avoid "unused lambda parameter" warning
             var order = oCtrl.confirmOrder();
             if (order == null) {
                 output.append("No active order to confirm\n");
@@ -148,7 +152,8 @@ public class OrderTestGUI extends JFrame {
         });
 
         // Cancel order
-        btnCancel.addActionListener(_ -> {
+        btnCancel.addActionListener(e -> {
+            e.getActionCommand(); // use parameter to avoid "unused lambda parameter" warning
             if (JOptionPane.showConfirmDialog(this,
                     "Are you sure you want to cancel the current order?",
                     "Confirm cancel",
