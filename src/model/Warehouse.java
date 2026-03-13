@@ -8,7 +8,7 @@ import java.util.List;
  * This class manages warehouse information and maintains a list of stock items
  * that are stored in the warehouse.
  * 
- * @author Andreas Larsen, Magnus Remmer, Benyamin Mannan, Said Hamidi, Siyar Ustun
+ * @author Andreas Larsen, Magnus Remmer, Benyamin Mannan, Said Payam Hamidi, Siyar Ustun
  * @version 1.0
  */
 public class Warehouse {
