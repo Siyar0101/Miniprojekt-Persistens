@@ -26,6 +26,11 @@ public class OrderTestGUI extends JFrame {
     private JTextField txtQty = new JTextField(5);
     private JTextArea output = new JTextArea(10, 30);
 
+    // Helper to format currency values with two decimals and " kr." suffix
+    private String fmtCurrency(double v) {
+        return String.format("%.2f kr.", v);
+    }
+
     /**
      * Constructor initializing the OrderTestGUI window and components.
      */
@@ -94,8 +99,8 @@ public class OrderTestGUI extends JFrame {
                             + ol.getProduct().getName()
                             + " (" + ol.getProduct().getProductNo() + ") x"
                             + ol.getQuantity()
-                            + " | Price: " + price
-                            + " | Subtotal: " + subtotal
+                            + " | Price: " + fmtCurrency(price)
+                            + " | Subtotal: " + fmtCurrency(subtotal)
                             + "\n");
                 } else {
                     output.append("Product NOT FOUND\n");
@@ -131,13 +136,13 @@ public class OrderTestGUI extends JFrame {
                 customerType = order.getCustomer().getCustomerType();
             }
 
-            String msg = String.format("Order confirmed. Total: %.2f", amount);
+            String msg = "Order confirmed. Total: " + fmtCurrency(amount);
             // Do not display customer type anymore; only show subtotal
-            msg += String.format(" | Subtotal: %.2f", subtotal);
+            msg += " | Subtotal: " + fmtCurrency(subtotal);
 
             if (discount > 0.0) {
                 double percent = (discount / subtotal) * 100.0;
-                msg += String.format(" | Discount: %.2f (%.0f%%)", discount, percent);
+                msg += String.format(" | Discount: %s (%.0f%%)", fmtCurrency(discount), percent);
 
             } else {
                 // Explain why no discount was applied
